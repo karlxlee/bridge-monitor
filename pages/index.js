@@ -20,7 +20,13 @@ import {
 } from "@chakra-ui/react";
 import useSWR from "swr";
 
-import { totalVolume, countTransactions, checkInterval } from "@/utils/stats";
+import {
+  totalVolume,
+  countTransactions,
+  checkInterval,
+  totalVolumeChange,
+  countTransactionsChange,
+} from "@/utils/stats";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -46,7 +52,7 @@ export default function Home() {
   const { activity, isLoading } = BridgeActivity();
   const [timeframe, setTimeframe] = useState(1);
 
-  const ActivityBar = () => {
+  const ActivityBar = (props) => {
     let divisions = timeframe == 1 ? 60 : 48;
     let interval = (timeframe * 60 * 60 * 1000) / divisions;
     return (
@@ -66,7 +72,8 @@ export default function Home() {
             : checkInterval(
                 activity.transfers.data,
                 startDateTime.getTime(),
-                endDateTime.getTime()
+                endDateTime.getTime(),
+                props.bridge && props.bridge
               );
           return (
             <Tooltip
@@ -133,8 +140,22 @@ export default function Home() {
                     : totalVolume(activity.transfers.data, timeframe)}
                 </StatNumber>
                 <StatHelpText>
-                  <StatArrow type="increase" />
-                  23.36%
+                  <StatArrow
+                    type={
+                      !isLoading
+                        ? totalVolumeChange(
+                            activity.transfers.data,
+                            timeframe
+                          ) > 0
+                          ? "increase"
+                          : "decrease"
+                        : "increase"
+                    }
+                  />
+                  {isLoading
+                    ? ""
+                    : totalVolumeChange(activity.transfers.data, timeframe)}
+                  %
                 </StatHelpText>
               </Stat>
 
@@ -146,17 +167,46 @@ export default function Home() {
                     : countTransactions(activity.transfers.data, timeframe)}
                 </StatNumber>
                 <StatHelpText>
-                  <StatArrow type="decrease" />
-                  9.05%
+                  <StatArrow
+                    type={
+                      !isLoading
+                        ? countTransactionsChange(
+                            activity.transfers.data,
+                            timeframe
+                          ) > 0
+                          ? "increase"
+                          : "decrease"
+                        : "increase"
+                    }
+                  />
+                  {isLoading
+                    ? ""
+                    : countTransactionsChange(
+                        activity.transfers.data,
+                        timeframe
+                      )}
+                  %
                 </StatHelpText>
               </Stat>
             </StatGroup>
           </Box>
           <Box borderRadius="lg" borderWidth={"1px"} p="4">
-            <Heading as="h2" size="sm" mb={2}>
-              Activity
+            <Heading as="h2" size="sm" mb={3}>
+              All bridges monitored
             </Heading>
             <ActivityBar />
+          </Box>
+          <Box borderRadius="lg" borderWidth={"1px"} p="4">
+            <Heading as="h2" size="sm" mb={3}>
+              Optics (Ethereum)
+            </Heading>
+            <ActivityBar bridge="optics" />
+          </Box>
+          <Box borderRadius="lg" borderWidth={"1px"} p="4">
+            <Heading as="h2" size="sm" mb={3}>
+              Wormhole (Ethereum)
+            </Heading>
+            <ActivityBar bridge="wormhole" />
           </Box>
         </Stack>
       </Container>
