@@ -1,5 +1,7 @@
 ## Bridge Monitor
 
+### Live demo: https://bridge-monitor.vercel.app/
+
 Cross-chain bridges rely on validators with high uptime to read and verify transactions. Outages and downtime can harm both the validator (often only the highest quality validators compete for a limited number of spots) and the health of the bridge.
 
 Bridge Monitor monitors for unusual bridge activity in real-time. It is a real-time dashboard for engineers and staking companies to check for exceptional falls and spikes in bridging activity, enabling a rapid response.
