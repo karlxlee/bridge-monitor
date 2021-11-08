@@ -51,7 +51,7 @@ Bridge Monitor monitors for unusual bridge activity in real-time. It is a real-t
 
 #### Deploy on Vercel
 
-- Remember to allow the webapp to access your FaunaDB by using [Vercel's integration](https://vercel.com/integrations/fauna)
+- Before deployment, allow the webapp to access your FaunaDB by using [Vercel's integration](https://vercel.com/integrations/fauna)
 - Select the database and Vercel project to connect
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkarlxlee%2Fbridge-monitor)
