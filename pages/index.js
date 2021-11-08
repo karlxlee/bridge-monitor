@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
   Heading,
+  Text,
   Box,
   Tooltip,
   Container,
@@ -113,10 +114,14 @@ export default function Home() {
 
       <Container maxW="container.md">
         <Stack spacing={4}>
-          <Box mt={12} mb={8}>
+          <Box mt={12} pb={8} borderRadius="lg" borderWidth={"1px"} p="4">
             <Heading as="h1" size="xl">
               Bridge Monitor
             </Heading>
+            <Text color="gray.500" mt={4}>
+              Monitor cross-chain bridge activity in real-time and check for
+              potential downtime.
+            </Text>
           </Box>
           <Box borderRadius="lg" borderWidth={"1px"} p="4">
             <RadioGroup value={timeframe}>
