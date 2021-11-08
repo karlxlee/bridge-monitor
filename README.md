@@ -46,8 +46,8 @@ Bridge Monitor monitors for unusual bridge activity in real-time. It is a real-t
 8. Deploy the Parsiq triggers
 
 ### Bridge Monitor web app
-1. If deploying with Vercel, 
-Clone this repo and run the development server:
+Clone this repo. You'll need to add a .env file
+and run the development server:
 
 ```bash
 npm run dev
@@ -58,5 +58,8 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Deploy on Vercel
+
+- Remember to allow the webapp to access your FaunaDB by using [Vercel's integration](https://vercel.com/integrations/fauna)
+- Select the database and Vercel project to connect
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkarlxlee%2Fbridge-monitor)
