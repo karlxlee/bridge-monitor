@@ -2,11 +2,52 @@
 
 Cross-chain bridges rely on validators with high uptime to read and verify transactions. Outages and downtime can harm both the validator (often only the highest quality validators compete for a limited number of spots) and the health of the bridge.
 
-Bridge Monitor monitors for unusual bridge activity in real-time. It alerts engineers and staking companies to exceptional falls and spikes in bridging activity, enabling a rapid response.
+Bridge Monitor monitors for unusual bridge activity in real-time. It is a real-time dashboard for engineers and staking companies to check for exceptional falls and spikes in bridging activity, enabling a rapid response.
+
+**Bridges supported:**
+- [Optics](https://docs.celo.org/celo-codebase/protocol/optics)
+- [Wormhole](https://wormholebridge.com/)
+
+**Stats supported:**
+- Total volume
+- Transaction count
+- [wip] Inflows versus outflows
+
+
+## Implementation
+- Bridge Chain relies on a real-time feed of data from [Parsiq](https://www.parsiq.net/en/)
+- Transactions to and from bridges are monitored and caught using ParsiQL scripts
+- Parsiq sends the transaction data to an intermediary [Pipedream](https://pipedream.com/) server via webhooks
+- The Pipedream server listens for webhook calls. It receives the data, formats it, and then forwards it to a [Fauna database](https://fauna.com/)
+- The front-end web app, built on [Next.js](https://nextjs.org/) consumes data from Fauna
+- The front-end web app continuously refetches new database records for a real-time experience using the [swr library](https://swr.vercel.app/)
 
 ## Setup
 
-First, run the development server:
+### FaunaDB
+1. Create a new [Fauna](https://fauna.com/) database (choose classic server location)
+2. Under 'security', create a server key for access to the database
+
+### ParsiQL scripts
+1. Create a new, empty Parsiq project
+2. Add a new trigger for each of the following bridges. Paste the queries below into the Code Editor for each trigger:
+- [Optics on Ethereum](https://gist.github.com/karlxlee/d02fcca5a1dceba2d3ed601506b50ea6)
+- [Wormhole on Ethereum](https://gist.github.com/karlxlee/c2a0a2a7b75e3fb1fd81659f5972ad23)
+3. Click save (no need to deploy yet)
+
+### Pipedream server
+1. Add your Fauna server key into Pipedream under the 'Accounts' tab
+2. Create a new [Pipedream](https://pipedream.com/) server to listen for webhook data from Parsiq
+3. Remove the default 2nd step. Search for a FaunaDB step and add it
+4. Paste the following [script](https://gist.github.com/karlxlee/ba6ef62f9fb858c0359d7c6fe9a17507) into the FaunaDB step to write the transaction data to Fauna
+5. Copy the Pipedream webhook URL
+6. Go back to Parsiq, create a new webhook Transport and paste the url
+7. Go to each Parsiq trigger and select the webhook as the Transport channel
+8. Deploy the Parsiq triggers
+
+### Bridge Monitor web app
+1. If deploying with Vercel, 
+Clone this repo and run the development server:
 
 ```bash
 npm run dev
@@ -18,6 +59,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkarlxlee%2Fbridge-monitor)
