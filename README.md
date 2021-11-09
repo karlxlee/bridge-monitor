@@ -8,6 +8,8 @@ Cross-chain bridges rely on validators with high uptime to read and verify trans
 
 Bridge Monitor monitors for unusual bridge activity in real-time. It is a real-time dashboard for engineers and staking companies to check for exceptional falls and spikes in bridging activity, enabling a rapid response.
 
+N.B. % changes on previous period will show infinity% on the webapp when first starting the monitor, since there is no data for the previous period.
+
 **Bridges supported:**
 - [Optics](https://docs.celo.org/celo-codebase/protocol/optics)
 - [Wormhole](https://wormholebridge.com/)
@@ -58,6 +60,7 @@ Bridge Monitor monitors for unusual bridge activity in real-time. It is a real-t
 - Select the database and Vercel project to connect
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkarlxlee%2Fbridge-monitor)
+
 
 ### Local development
 Clone this repo. If you've deployed with Vercel and used Vercel's Fauna integration, then get the environment variables for local development by running `vercel env pull`. Otherwise you may have to create another access key on Fauna, create an env file and add it (as demonstrated in .env.example).
