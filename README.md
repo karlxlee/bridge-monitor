@@ -2,6 +2,8 @@
 
 ### Live demo: https://bridge-monitor.vercel.app/
 
+Note: Bridge Monitor is currently not showing data because my Parsiq actions / month account limit has been reached.
+
 https://user-images.githubusercontent.com/30199031/140842100-a3efd64a-6312-48bd-9d82-c175ef195d8f.mp4
 
 Cross-chain bridges rely on validators with high uptime to read and verify transactions. Outages and downtime can harm both the validator (often only the highest quality validators compete for a limited number of spots) and the health of the bridge.
